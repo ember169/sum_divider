@@ -22,7 +22,7 @@ html_template = """
     <style>
         .gif {
             height: 100vh;
-            background-image: url(https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHM2NTFuNGVkYnVobDhleWpxZWVnaTM5ODE4Z255eTB4YjNzMWxzZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/S4178TW2Rm1LW/giphy.gif);
+            background-image: url(https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3BnZGg4OGpjM2JueWE4c2F1Mm50MWgyNWUwNnkzN2ljbHdjOGU5biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YnkMcHgNIMW4Yfmjxr/giphy.gif);
             background-size: cover;
         }
         body {
@@ -117,8 +117,8 @@ html_template = """
     </style>
 </head>
 <body class="gif">
+    <h3>Montant à répartir</h3>
     <form method="post">
-        <label for="montant">Montant à répartir :</label>
         <input type="text" name="montant" placeholder="Entrez le montant" required pattern="\\d+" title="Entrez un nombre entier">
         <button type="submit">Calculer</button>
     </form>
