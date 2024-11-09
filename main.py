@@ -36,6 +36,16 @@ html_template = """
             min-height: 100vh;
             margin: 0;
         }
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); /* Couleur d'overlay noire avec opacité de 50 % */
+            pointer-events: none; /* Permet de cliquer à travers l'overlay */
+        }
         h2 {
             font-family: 'Roboto', sans-serif;
             font-weight: 500;
