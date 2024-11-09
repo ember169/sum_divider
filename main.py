@@ -116,30 +116,39 @@ html_template = """
     </form>
     {% if result %}
     <div class="results">
-        <h3>Imposable</h3>
         <table>
-            <tr>
-                <td>Cash</td>
-                <td>{{ result['cash'] }}</td>
+            <!-- Montant total -->
+            <tr class="total-row">
+                <td>Montant total</td>
+                <td>{{ result['montant_total'] }}</td>
             </tr>
-            <tr>
+        </table>
+        <div class="section-title">Crypto</div>
+        <table>
+            <!-- Crypto -->
+            <tr class="crypto-row">
+                <td>Crypto</td>
+                <td>{{ result['crypto'] }}</td>
+            </tr>
+        </table>
+        <div class="section-title">Montant imposable</div>
+        <table>
+            <!-- Montant imposable et autres enveloppes -->
+            <tr class="taxable-row">
                 <td>PEA</td>
                 <td>{{ result['pea'] }}</td>
             </tr>
-            <tr>
-                <td>LA (épargne)</td>
+            <tr class="taxable-row">
+                <td>LA</td>
                 <td>{{ result['epargne'] }}</td>
             </tr>
-            <tr>
+            <tr class="taxable-row">
                 <td>LLDS (impôts)</td>
                 <td>{{ result['impots'] }}</td>
             </tr>
-        </table>
-        <h3>Non imposable</h3>
-        <table>
-            <tr>
-                <td>Crypto</td>
-                <td>{{ result['crypto'] }}</td>
+            <tr class="taxable-row">
+                <td>Cash</td>
+                <td>{{ result['cash'] }}</td>
             </tr>
         </table>
     </div>
@@ -155,20 +164,17 @@ def repartir_gains():
         try:
             montant = float(request.form["montant"])
             
-            # Calcul de la crypto (20 % du montant total)
-            crypto = round(montant * 1 / 10, 2)  # 20% de l'ensemble du montant total
+            # Calculs pour chaque enveloppe
+            crypto = round(montant * 1 / 10, 2)
+            montant_sans_crypto = montant - crypto
+            impots = math.ceil(montant_sans_crypto * 0.30)
+            reste = montant_sans_crypto - impots
+            cash = round(reste * 1 / 10, 2)
+            pea = round(reste * 4 / 10, 2)
+            epargne = round(reste * 2 / 10, 2)
 
-            # Calcul du montant restant sans la crypto pour les impôts et autres enveloppes
-            montant_sans_crypto = montant - crypto  # On retire la part Crypto du montant total
-
-            impots = math.ceil(montant_sans_crypto * 0.30)  # 30% du montant restant après avoir retiré la crypto
-            reste = montant_sans_crypto - impots  # On calcule le montant restant après le prélèvement des impôts
-            cash = round(reste * 1 / 10, 2)  # 10% du montant restant après impôt
-            pea = round(reste * 4 / 10, 2)  # 40% du montant restant après impôt
-            epargne = round(reste * 2 / 10, 2)  # 20% du montant restant après impôt
-
-            # Résultat final
             result = {
+                "montant_total": montant,
                 "cash": cash,
                 "pea": pea,
                 "epargne": epargne,
