@@ -67,7 +67,7 @@ html_template = """
         }
         button {
             padding: 12px;
-            background-color: #4CAF50;
+            background-color: #1B448F;
             color: white;
             border: none;
             border-radius: 5px;
@@ -76,7 +76,7 @@ html_template = """
             max-width: 300px;
         }
         button:hover {
-            background-color: #45a049;
+            background-color: #0C1D3E;
         }
         .results {
             max-width: 400px;
@@ -108,6 +108,9 @@ html_template = """
         td {
             color: #ffffff;
         }
+        .right-align {
+            text-align: right;
+        }
     </style>
 </head>
 <body>
@@ -121,31 +124,31 @@ html_template = """
         <table>
             <tr class="total-row">
                 <td>Montant total</td>
-                <td>{{ result['montant_total'] }}</td>
+                <td class="right-align">{{ result['montant_total'] }}</td>
             </tr>
             <tr>
                 <td>Crypto</td>
-                <td>{{ result['crypto'] }}</td>
+                <td class="right-align"{{ result['crypto'] }}</td>
             </tr>
             <tr class="total-row">
                 <td>Montant imposable</td>
-                <td>{{ result['imposable'] }}</td>
+                <td class="right-align">{{ result['imposable'] }}</td>
             </tr>
             <tr class="taxable-row">
                 <td>PEA</td>
-                <td>{{ result['pea'] }}</td>
+                <td class="right-align">{{ result['pea'] }}</td>
             </tr>
             <tr class="taxable-row">
                 <td>LA</td>
-                <td>{{ result['epargne'] }}</td>
+                <td class="right-align">{{ result['epargne'] }}</td>
             </tr>
             <tr class="taxable-row">
                 <td>LDDS (impôts)</td>
-                <td>{{ result['impots'] }}</td>
+                <td class="right-align">{{ result['impots'] }}</td>
             </tr>
             <tr class="taxable-row">
                 <td>Cash</td>
-                <td>{{ result['cash'] }}</td>
+                <td class="right-align">{{ result['cash'] }}</td>
             </tr>
         </table>
     </div>
