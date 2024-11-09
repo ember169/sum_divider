@@ -126,8 +126,8 @@ html_template = """
         <h3>Résultats :</h3>
         <table>
             <tr>
-                <td>LDDS (impôts)</td>
-                <td>{{ result['impots'] }}</td>
+                <td>Cash</td>
+                <td>{{ result['cash'] }}</td>
             </tr>
             <tr>
                 <td>PEA</td>
@@ -138,12 +138,14 @@ html_template = """
                 <td>{{ result['epargne'] }}</td>
             </tr>
             <tr>
+                <td>LLDS (impôts)</td>
+                <td>{{ result['impots'] }}</td>
+            </tr>
+        </table>
+        <table>
+            <tr>
                 <td>Crypto</td>
                 <td>{{ result['crypto'] }}</td>
-            </tr>
-            <tr>
-                <td>Cash</td>
-                <td>{{ result['cash'] }}</td>
             </tr>
         </table>
     </div>
@@ -159,19 +161,22 @@ def repartir_gains():
         try:
             montant = float(request.form["montant"])
             
-            # Calcul de l'impôt
-            impots = math.ceil(montant * 0.30)  # 30% arrondi au supérieur
+            # Calcul de la crypto (partie à ne pas inclure dans le calcul des impôts)
+            crypto = round(montant * 2 / 10, 2)
             
-            # Calcul du reste
-            reste = montant - impots
+            # Calcul du montant restant sans la crypto pour les impôts et autres enveloppes
+            montant_sans_crypto = montant - crypto
             
-            # Répartition du reste entre les autres enveloppes
+            # Calcul de l'impôt (30% du montant restant)
+            impots = math.ceil(montant_sans_crypto * 0.30)  # 30% arrondi au supérieur
+            
+            # Répartition du reste (après impôt) entre Cash, PEA, LA
+            reste = montant_sans_crypto - impots
             cash = round(reste * 1 / 10, 2)
             pea = round(reste * 4 / 10, 2)
             epargne = round(reste * 1 / 10, 2)
-            crypto = round(reste * 2 / 10, 2)
-
-            # Résultat
+            
+            # Résultat final
             result = {
                 "cash": cash,
                 "pea": pea,
