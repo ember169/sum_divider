@@ -11,23 +11,15 @@ html_template = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Répartition des gains</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&family=Roboto:wght@500&display=swap" rel="stylesheet">
-    <script>
-        var images = [
-        'https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3BnZGg4OGpjM2JueWE4c2F1Mm50MWgyNWUwNnkzN2ljbHdjOGU5biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YnkMcHgNIMW4Yfmjxr/giphy.gif',
-        'https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjAwOHlld28xd3hjdXNxaDhxanZ2Z3JjOXk1ZThvY3N5ZjhiMWt6MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/15wC7XdIXN5q8o6fr9/giphy.gif', 
-        'https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHM2NTFuNGVkYnVobDhleWpxZWVnaTM5ODE4Z255eTB4YjNzMWxzZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/S4178TW2Rm1LW/giphy.gif', 
-        'https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExdDJ6cTR1aXBhazB1Zzk3bnVpdjBmMnU2bW91MXA5cWpnMG9peTA0OSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MFsqcBSoOKPbjtmvWz/giphy.gif'];
-        $('.gif').css({'background-image': 'url(' + images[Math.floor(Math.random() * images.length)] + ')'});
-    </script>
     <style>
-        .gif {
-            height: 100vh;
-            background-image: url(https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3BnZGg4OGpjM2JueWE4c2F1Mm50MWgyNWUwNnkzN2ljbHdjOGU5biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YnkMcHgNIMW4Yfmjxr/giphy.gif);
-            background-size: cover;
-        }
+        /* Applique l'overlay sombre par-dessus le GIF en fond */
         body {
             font-family: 'Roboto', sans-serif;
-            background-color: #121212;
+            background-image: 
+                linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), /* Overlay sombre */
+                url('https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3BnZGg4OGpjM2JueWE4c2F1Mm50MWgyNWUwNnkzN2ljbHdjOGU5biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YnkMcHgNIMW4Yfmjxr/giphy.gif'); /* GIF en fond */
+            background-size: cover;
+            background-position: center;
             color: #e0e0e0;
             display: flex;
             flex-direction: column;
@@ -35,16 +27,6 @@ html_template = """
             justify-content: center;
             min-height: 100vh;
             margin: 0;
-        }
-        body::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.5); /* Couleur d'overlay noire avec opacité de 50 % */
-            pointer-events: none; /* Permet de cliquer à travers l'overlay */
         }
         h2 {
             font-family: 'Roboto', sans-serif;
@@ -104,7 +86,7 @@ html_template = """
             border-radius: 8px;
             box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
             text-align: center;
-            margin-bottom : 20px;
+            margin-bottom: 20px;
         }
         table {
             width: 100%;
@@ -126,7 +108,7 @@ html_template = """
         }
     </style>
 </head>
-<body class="gif">
+<body>
     <form method="post">
         <h3>Montant à répartir</h3>
         <input type="text" name="montant" placeholder="Entrez le montant" required pattern="\\d+" title="Entrez un nombre entier">
@@ -179,23 +161,12 @@ def repartir_gains():
             # Calcul du montant restant sans la crypto pour les impôts et autres enveloppes
             montant_sans_crypto = montant - crypto  # On retire la part Crypto du montant total
 
-            # Calcul de l'impôt (30 % du montant restant après la crypto)
             impots = math.ceil(montant_sans_crypto * 0.30)  # 30% du montant restant après avoir retiré la crypto
-
-            # Répartition du reste entre Cash, PEA, et Epargne (LA)
             reste = montant_sans_crypto - impots  # On calcule le montant restant après le prélèvement des impôts
-
-            # Cash : 10 % du montant restant après impôt
             cash = round(reste * 1 / 10, 2)  # 10% du montant restant après impôt
-
-            # PEA : 40 % du montant restant après impôt
             pea = round(reste * 4 / 10, 2)  # 40% du montant restant après impôt
-
-            # Epargne (LA) : 20 % du montant restant après impôt
             epargne = round(reste * 2 / 10, 2)  # 20% du montant restant après impôt
 
-
-            
             # Résultat final
             result = {
                 "cash": cash,
