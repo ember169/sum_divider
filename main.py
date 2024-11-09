@@ -128,7 +128,7 @@ html_template = """
             </tr>
             <tr>
                 <td>Crypto</td>
-                <td class="right-align"{{ result['crypto'] }}</td>
+                <td class="right-align">{{ result['crypto'] }}</td>
             </tr>
             <tr class="total-row">
                 <td>Montant imposable</td>
