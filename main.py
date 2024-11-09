@@ -10,7 +10,7 @@ html_template = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Répartition des gains</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&family=Roboto:wght@500&display=swap" rel="stylesheet">
-    <style>
+        <style>
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #121212;
@@ -28,7 +28,10 @@ html_template = """
             color: #ffffff;
             text-align: center;
         }
-        form, .results {
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             max-width: 400px;
             width: 90%;
             background-color: #1f1f1f;
@@ -44,6 +47,7 @@ html_template = """
             color: #e0e0e0;
             font-weight: 500;
             margin-bottom: 15px;
+            max-width: 300px;
         }
         input {
             background-color: #333;
@@ -52,7 +56,7 @@ html_template = """
             color: #e0e0e0;
             border-radius: 5px;
             font-size: 16px;
-            margin:auto;
+            text-align: center;
         }
         button {
             padding: 12px;
@@ -62,9 +66,20 @@ html_template = """
             border-radius: 5px;
             cursor: pointer;
             font-weight: 500;
+            text-align: center;
+            max-width: 300px;
         }
         button:hover {
             background-color: #45a049;
+        }
+        .results {
+            max-width: 400px;
+            width: 90%;
+            background-color: #1f1f1f;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
+            text-align: center;
         }
         table {
             width: 100%;
