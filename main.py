@@ -140,7 +140,7 @@ html_template = """
                 <td>{{ result['epargne'] }}</td>
             </tr>
             <tr class="taxable-row">
-                <td>LLDS (impôts)</td>
+                <td>LDDS (impôts)</td>
                 <td>{{ result['impots'] }}</td>
             </tr>
             <tr class="taxable-row">
@@ -171,13 +171,12 @@ def repartir_gains():
             epargne = round(reste * 2 / 10, 2)
 
             result = {
-                "montant_total": montant,
-                "cash": cash,
-                "pea": pea,
-                "epargne": epargne,
-                "impots": impots,
-                "crypto": crypto,
-                "imposable": montant_sans_crypto,
+                "montant_total": "{:.2f}".format(montant),
+                "cash": "{:.2f}".format(cash),
+                "pea": "{:.2f}".format(pea),
+                "epargne": "{:.2f}".format(epargne),
+                "impots": "{:.2f}".format(impots),
+                "crypto": "{:.2f}".format(crypto),
             }
         except ValueError:
             result = None
