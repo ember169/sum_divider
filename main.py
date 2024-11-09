@@ -22,7 +22,7 @@ html_template = """
     <style>
         .gif {
             height: 100vh;
-            background-image: url(https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExdDJ6cTR1aXBhazB1Zzk3bnVpdjBmMnU2bW91MXA5cWpnMG9peTA0OSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MFsqcBSoOKPbjtmvWz/giphy.gif);
+            background-image: url(https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjAwOHlld28xd3hjdXNxaDhxanZ2Z3JjOXk1ZThvY3N5ZjhiMWt6MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/15wC7XdIXN5q8o6fr9/giphy.gif);
             background-size: cover;
         }
         body {
@@ -94,6 +94,7 @@ html_template = """
             border-radius: 8px;
             box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
             text-align: center;
+            margin-bottom : 20px;
         }
         table {
             width: 100%;
