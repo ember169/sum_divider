@@ -52,6 +52,7 @@ html_template = """
             color: #e0e0e0;
             border-radius: 5px;
             font-size: 16px;
+            margin:auto;
         }
         button {
             padding: 12px;
@@ -98,7 +99,7 @@ html_template = """
         <table>
             <tr>
                 <th>Enveloppe</th>
-                <th>Montant (USDC)</th>
+                <th>Montant</th>
             </tr>
             <tr>
                 <td>Cash</td>
