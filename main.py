@@ -21,6 +21,7 @@ html_template = """
     <style>
         .gif {
             height: 100vh;
+            background-image: url(https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3BnZGg4OGpjM2JueWE4c2F1Mm50MWgyNWUwNnkzN2ljbHdjOGU5biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YnkMcHgNIMW4Yfmjxr/giphy.gif);
             background-size: cover;
         }
         body {
