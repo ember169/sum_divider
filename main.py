@@ -117,8 +117,8 @@ html_template = """
     </style>
 </head>
 <body class="gif">
-    <h3>Montant à répartir</h3>
     <form method="post">
+        <h3>Montant à répartir</h3>
         <input type="text" name="montant" placeholder="Entrez le montant" required pattern="\\d+" title="Entrez un nombre entier">
         <button type="submit">Calculer</button>
     </form>
