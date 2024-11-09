@@ -90,6 +90,7 @@ html_template = """
         }
         .total-row {
             font-weight: 700;
+            background-color:#333;
         }
         table {
             width: 100%;
