@@ -10,7 +10,7 @@ html_template = """
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Répartition des gains</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&family=Roboto:wght@500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:family=Roboto:wght@500&display=swap" rel="stylesheet">
     <style>
         /* Applique l'overlay sombre par-dessus le GIF en fond */
         body {
