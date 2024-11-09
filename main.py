@@ -72,7 +72,6 @@ html_template = """
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-weight: 500;
             text-align: center;
             max-width: 300px;
         }
@@ -96,7 +95,7 @@ html_template = """
             width: 100%;
             border-collapse: collapse;
             font-family: 'Roboto Mono', monospace;
-            font-weight: 400;
+            font-weight: 400!important;
         }
         th, td {
             padding: 12px;
