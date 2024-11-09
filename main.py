@@ -170,13 +170,16 @@ def repartir_gains():
             pea = round(reste * 4 / 10, 2)
             epargne = round(reste * 2 / 10, 2)
 
+            def format_number(value):
+                return "{:,.2f}".format(value).replace(",", " ").replace(".", ",")
+
             result = {
-                "montant_total": "{:.2f}".format(montant),
-                "cash": "{:.2f}".format(cash),
-                "pea": "{:.2f}".format(pea),
-                "epargne": "{:.2f}".format(epargne),
-                "impots": "{:.2f}".format(impots),
-                "crypto": "{:.2f}".format(crypto),
+                "montant_total": format_number(montant),
+                "cash": format_number(cash),
+                "pea": format_number(pea),
+                "epargne": format_number(epargne),
+                "impots": format_number(impots),
+                "crypto": format_number(crypto),
             }
         except ValueError:
             result = None
