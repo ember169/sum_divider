@@ -1,4 +1,5 @@
 from flask import Flask, request, render_template_string
+import math
 
 app = Flask(__name__)
 
@@ -125,8 +126,8 @@ html_template = """
         <h3>Résultats :</h3>
         <table>
             <tr>
-                <td>Cash</td>
-                <td>{{ result['cash'] }}</td>
+                <td>LDDS (impôts)</td>
+                <td>{{ result['impots'] }}</td>
             </tr>
             <tr>
                 <td>PEA</td>
@@ -137,12 +138,12 @@ html_template = """
                 <td>{{ result['epargne'] }}</td>
             </tr>
             <tr>
-                <td>LDDS (impôts)</td>
-                <td>{{ result['impots'] }}</td>
-            </tr>
-            <tr>
                 <td>Crypto</td>
                 <td>{{ result['crypto'] }}</td>
+            </tr>
+            <tr>
+                <td>Cash</td>
+                <td>{{ result['cash'] }}</td>
             </tr>
         </table>
     </div>
@@ -157,12 +158,26 @@ def repartir_gains():
     if request.method == "POST":
         try:
             montant = float(request.form["montant"])
+            
+            # Calcul de l'impôt
+            impots = math.ceil(montant * 0.30)  # 30% arrondi au supérieur
+            
+            # Calcul du reste
+            reste = montant - impots
+            
+            # Répartition du reste entre les autres enveloppes
+            cash = round(reste * 1 / 10, 2)
+            pea = round(reste * 4 / 10, 2)
+            epargne = round(reste * 1 / 10, 2)
+            crypto = round(reste * 2 / 10, 2)
+
+            # Résultat
             result = {
-                "cash": round(montant * 1 / 10, 2),
-                "pea": round(montant * 4 / 10, 2),
-                "epargne": round(montant * 1 / 10, 2),
-                "impots": round(montant * 2 / 10, 2),
-                "crypto": round(montant * 2 / 10, 2),
+                "cash": cash,
+                "pea": pea,
+                "epargne": epargne,
+                "impots": impots,
+                "crypto": crypto,
             }
         except ValueError:
             result = None
