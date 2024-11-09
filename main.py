@@ -88,6 +88,9 @@ html_template = """
             text-align: center;
             margin-bottom: 20px;
         }
+        .total-row {
+            font-weight: 700;
+        }
         table {
             width: 100%;
             border-collapse: collapse;
@@ -117,23 +120,18 @@ html_template = """
     {% if result %}
     <div class="results">
         <table>
-            <!-- Montant total -->
             <tr class="total-row">
                 <td>Montant total</td>
                 <td>{{ result['montant_total'] }}</td>
             </tr>
-        </table>
-        <div class="section-title">Crypto</div>
-        <table>
-            <!-- Crypto -->
-            <tr class="crypto-row">
+            <tr>
                 <td>Crypto</td>
                 <td>{{ result['crypto'] }}</td>
             </tr>
-        </table>
-        <div class="section-title">Montant imposable</div>
-        <table>
-            <!-- Montant imposable et autres enveloppes -->
+            <tr class="total-row">
+                <td>Montant imposable</td>
+                <td>{{ result['imposable'] }}</td>
+            </tr>
             <tr class="taxable-row">
                 <td>PEA</td>
                 <td>{{ result['pea'] }}</td>
@@ -180,6 +178,7 @@ def repartir_gains():
                 "epargne": epargne,
                 "impots": impots,
                 "crypto": crypto,
+                "imposable": montant_sans_crypto,
             }
         except ValueError:
             result = None
