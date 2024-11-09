@@ -178,6 +178,7 @@ def repartir_gains():
 
             result = {
                 "montant_total": format_number(montant),
+                "imposable": format_number(montant_sans_crypto),
                 "cash": format_number(cash),
                 "pea": format_number(pea),
                 "epargne": format_number(epargne),
