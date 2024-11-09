@@ -10,7 +10,19 @@ html_template = """
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Répartition des gains</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@700&family=Roboto:wght@500&display=swap" rel="stylesheet">
-        <style>
+    <script>
+        var images = [
+        'https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3BnZGg4OGpjM2JueWE4c2F1Mm50MWgyNWUwNnkzN2ljbHdjOGU5biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YnkMcHgNIMW4Yfmjxr/giphy.gif',
+        'https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjAwOHlld28xd3hjdXNxaDhxanZ2Z3JjOXk1ZThvY3N5ZjhiMWt6MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/15wC7XdIXN5q8o6fr9/giphy.gif', 
+        'https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHM2NTFuNGVkYnVobDhleWpxZWVnaTM5ODE4Z255eTB4YjNzMWxzZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/S4178TW2Rm1LW/giphy.gif', 
+        'https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExdDJ6cTR1aXBhazB1Zzk3bnVpdjBmMnU2bW91MXA5cWpnMG9peTA0OSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/MFsqcBSoOKPbjtmvWz/giphy.gif'];
+        $('.gif').css({'background-image': 'url(' + images[Math.floor(Math.random() * images.length)] + ')'});
+    </script>
+    <style>
+        .gif {
+            height: 100vh;
+            background-size: cover;
+        }
         body {
             font-family: 'Roboto', sans-serif;
             background-color: #121212;
@@ -101,8 +113,7 @@ html_template = """
         }
     </style>
 </head>
-<body>
-    <h2>Répartition des gains</h2>
+<body class="gif">
     <form method="post">
         <label for="montant">Montant à répartir :</label>
         <input type="text" name="montant" placeholder="Entrez le montant" required pattern="\\d+" title="Entrez un nombre entier">
