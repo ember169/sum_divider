@@ -22,7 +22,7 @@ html_template = """
     <style>
         .gif {
             height: 100vh;
-            background-image: url(https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjAwOHlld28xd3hjdXNxaDhxanZ2Z3JjOXk1ZThvY3N5ZjhiMWt6MyZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/15wC7XdIXN5q8o6fr9/giphy.gif);
+            background-image: url(https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExNHM2NTFuNGVkYnVobDhleWpxZWVnaTM5ODE4Z255eTB4YjNzMWxzZiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/S4178TW2Rm1LW/giphy.gif);
             background-size: cover;
         }
         body {
@@ -124,7 +124,7 @@ html_template = """
     </form>
     {% if result %}
     <div class="results">
-        <h3>Imposable :</h3>
+        <h3>Imposable</h3>
         <table>
             <tr>
                 <td>Cash</td>
