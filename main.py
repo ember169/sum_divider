@@ -113,10 +113,6 @@ html_template = """
         <h3>Résultats :</h3>
         <table>
             <tr>
-                <th>Enveloppe</th>
-                <th>Montant</th>
-            </tr>
-            <tr>
                 <td>Cash</td>
                 <td>{{ result['cash'] }}</td>
             </tr>
@@ -129,7 +125,7 @@ html_template = """
                 <td>{{ result['epargne'] }}</td>
             </tr>
             <tr>
-                <td>LLDS (impôts)</td>
+                <td>LDDS (impôts)</td>
                 <td>{{ result['impots'] }}</td>
             </tr>
             <tr>
