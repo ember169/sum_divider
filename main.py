@@ -46,6 +46,7 @@ html_template = """
             box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
             margin-bottom: 20px;
             text-align: center;
+            font-weight: 400;
         }
         label, input, button {
             font-family: 'Roboto', sans-serif;
