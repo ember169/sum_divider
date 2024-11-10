@@ -117,7 +117,7 @@ html_template = """
     <form method="post">
         <h3>Montant à répartir</h3>
         <input type="text" name="montant" placeholder="Montant USDC (obligatoire)" required pattern="\\d+" title="Entrez un nombre entier">
-        <input type="text" name="montant-eur" placeholder="Montant EUR" required pattern="\\d+" title="Entrez un nombre entier">
+        <input type="text" name="montant-eur" placeholder="Montant EUR" pattern="\\d+" title="Entrez un nombre entier">
         <button type="submit">Calculer</button>
     </form>
     {% if result %}
