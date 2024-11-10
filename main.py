@@ -47,7 +47,7 @@ html_template = """
             color: #e0e0e0;
             border-radius: 5px;
             font-size: 16px;
-            text-align: center;
+            text-align: right;
         }
         button {
             padding: 12px;
@@ -83,19 +83,50 @@ html_template = """
     </style>
 </head>
 <body>
-    <form method="post">
-        <h3>Montant total en USDC</h3>
-        <input type="text" name="montant_usdc" placeholder="Entrez le montant en USDC" required pattern="\\d+(\\.\\d{1,2})?" title="Entrez un montant valide" value="{{ montant_usdc }}">
-        
-        {% if montant_placeholder %}
-            <h3>Montant restant en EUR (hors crypto)</h3>
-            <input type="text" name="montant_eur" placeholder="Suggestion : {{ montant_placeholder }}" required pattern="\\d+(\\.\\d{1,2})?" title="Entrez un montant valide" value="{{ montant_eur }}">
-            <button type="submit" formaction="/calculer">Valider les montants</button>
-        {% else %}
-            <button type="submit" formaction="/calcul_placeholder">Calculer le montant EUR suggéré</button>
-        {% endif %}
+    {% if show_table %}
+    <form method="post" action="/calculer">
+        <div class="results">
+            <table>
+                <tr class="total-row">
+                    <td>Montant total</td>
+                    <td><input type="text" name="montant_usdc" value="{{ montant_usdc }}" readonly></td>
+                </tr>
+                <tr>
+                    <td>Crypto</td>
+                    <td><input type="text" name="crypto" value="{{ result['crypto'] }}" readonly></td>
+                </tr>
+                <tr class="total-row">
+                    <td>Montant imposable</td>
+                    <td><input type="text" name="montant_eur" placeholder="Suggestion : {{ result['montant_eur'] }}" required></td>
+                </tr>
+                <tr class="taxable-row">
+                    <td>PEA</td>
+                    <td><input type="text" name="pea" placeholder="{{ result['pea'] }}"></td>
+                </tr>
+                <tr class="taxable-row">
+                    <td>LA</td>
+                    <td><input type="text" name="epargne" placeholder="{{ result['epargne'] }}"></td>
+                </tr>
+                <tr class="taxable-row">
+                    <td>LDDS (impôts)</td>
+                    <td><input type="text" name="impots" placeholder="{{ result['impots'] }}"></td>
+                </tr>
+                <tr class="taxable-row">
+                    <td>Cash</td>
+                    <td><input type="text" name="cash" placeholder="{{ result['cash'] }}"></td>
+                </tr>
+            </table>
+        </div>
+        <button type="submit">Valider les montants</button>
     </form>
-    
+    {% else %}
+    <form method="post" action="/calcul_placeholder">
+        <h3>Montant total en USDC</h3>
+        <input type="text" name="montant_usdc" placeholder="Entrez le montant en USDC" required pattern="\\d+(\\.\\d{1,2})?" title="Entrez un montant valide">
+        <button type="submit">Calculer le montant EUR suggéré</button>
+    </form>
+    {% endif %}
+
     {% if result %}
     <div class="results">
         <table>
@@ -134,52 +165,58 @@ html_template = """
 </html>
 """
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/", methods=["GET"])
 def index():
-    return render_template_string(html_template, montant_placeholder=None, result=None)
+    return render_template_string(html_template, show_table=False, result=None)
 
 @app.route("/calcul_placeholder", methods=["POST"])
 def calcul_placeholder():
     try:
         montant_usdc = float(request.form["montant_usdc"])
         crypto = round(montant_usdc * 0.10, 2)
-        montant_placeholder = round(montant_usdc - crypto, 2)
-        return render_template_string(html_template, montant_usdc=montant_usdc, montant_placeholder=montant_placeholder, result=None)
-    except ValueError:
-        return render_template_string(html_template, montant_placeholder=None, result=None)
-
-@app.route("/calculer", methods=["POST"])
-def repartir_gains():
-    try:
-        montant_usdc = float(request.form["montant_usdc"])
-        montant_eur = float(request.form["montant_eur"])
-
-        # Calcul de la part crypto (10 % du montant total en USDC)
-        crypto = round(montant_usdc * 0.10, 2)
-
-        # Calcul du montant imposable (le montant EUR entré manuellement)
+        montant_eur = round(montant_usdc - crypto, 2)
         impots = math.ceil(montant_eur * 0.30)
         reste = montant_eur - impots
         cash = round(reste * 0.10, 2)
         pea = round(reste * 0.40, 2)
         epargne = round(reste * 0.20, 2)
 
-        # Formattage des montants
-        def format_number(value):
-            return "{:,.2f}".format(value).replace(",", " ").replace(".", ",")
+        result = {
+            "montant_usdc": montant_usdc,
+            "crypto": crypto,
+            "montant_eur": montant_eur,
+            "cash": cash,
+            "pea": pea,
+            "epargne": epargne,
+            "impots": impots,
+        }
+        return render_template_string(html_template, show_table=True, result=result)
+    except ValueError:
+        return render_template_string(html_template, show_table=False, result=None)
+
+@app.route("/calculer", methods=["POST"])
+def repartir_gains():
+    try:
+        montant_usdc = float(request.form["montant_usdc"])
+        montant_eur = float(request.form["montant_eur"])
+        crypto = float(request.form["crypto"])
+        pea = float(request.form["pea"])
+        epargne = float(request.form["epargne"])
+        impots = float(request.form["impots"])
+        cash = float(request.form["cash"])
 
         result = {
-            "montant_usdc": format_number(montant_usdc),
-            "crypto": format_number(crypto),
-            "montant_eur": format_number(montant_eur),
-            "cash": format_number(cash),
-            "pea": format_number(pea),
-            "epargne": format_number(epargne),
-            "impots": format_number(impots),
+            "montant_usdc": "{:,.2f}".format(montant_usdc).replace(",", " ").replace(".", ","),
+            "crypto": "{:,.2f}".format(crypto).replace(",", " ").replace(".", ","),
+            "montant_eur": "{:,.2f}".format(montant_eur).replace(",", " ").replace(".", ","),
+            "cash": "{:,.2f}".format(cash).replace(",", " ").replace(".", ","),
+            "pea": "{:,.2f}".format(pea).replace(",", " ").replace(".", ","),
+            "epargne": "{:,.2f}".format(epargne).replace(",", " ").replace(".", ","),
+            "impots": "{:,.2f}".format(impots).replace(",", " ").replace(".", ","),
         }
-        return render_template_string(html_template, montant_placeholder=None, result=result)
+        return render_template_string(html_template, show_table=False, result=result)
     except ValueError:
-        return render_template_string(html_template, montant_placeholder=None, result=None)
+        return render_template_string(html_template, show_table=False, result=None)
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
