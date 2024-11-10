@@ -116,8 +116,8 @@ html_template = """
 <body>
     <form method="post">
         <h3>Montant à répartir</h3>
-        <input type="text" name="montant" placeholder="Montant USDC (obligatoire)" required pattern="\\d+" title="Entrez un nombre entier">
-        <input type="text" name="montant-eur" placeholder="Montant EUR" pattern="\\d+" title="Entrez un nombre entier">
+        <input type="text" name="montant" placeholder="* Montant USDC" required pattern="\\d+" title="Entrez un nombre entier">
+        <input type="text" name="montant-eur" placeholder="Montant EUR (optionnel)" pattern="\\d+" title="Entrez un nombre entier">
         <button type="submit">Calculer</button>
     </form>
     {% if result %}
@@ -164,8 +164,10 @@ def repartir_gains():
     if request.method == "POST":
         try:
             montant = float(request.form["montant"])
-            montant_eur = float(request.form["montant-eur"])
-            
+            # Vérification si "montant-eur" est vide
+            montant_eur_input = request.form.get("montant-eur")
+            montant_eur = float(montant_eur_input) if montant_eur_input else None
+
             # Si aucun montant n'est entré dans le champs EUR
             if montant_eur == None :
                 # Calculs pour chaque enveloppe
