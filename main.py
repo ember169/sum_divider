@@ -116,7 +116,8 @@ html_template = """
 <body>
     <form method="post">
         <h3>Montant à répartir</h3>
-        <input type="text" name="montant" placeholder="Entrez le montant" required pattern="\\d+" title="Entrez un nombre entier">
+        <input type="text" name="montant" placeholder="Montant USDC (obligatoire)" required pattern="\\d+" title="Entrez un nombre entier">
+        <input type="text" name="montant-eur" placeholder="Montant EUR" required pattern="\\d+" title="Entrez un nombre entier">
         <button type="submit">Calculer</button>
     </form>
     {% if result %}
@@ -124,31 +125,31 @@ html_template = """
         <table>
             <tr class="total-row">
                 <td>Montant total</td>
-                <td class="right-align">{{ result['montant_total'] }}</td>
+                <td class="right-align">{{ result['montant_total'] }} USDC</td>
             </tr>
             <tr>
                 <td>Crypto</td>
-                <td class="right-align">{{ result['crypto'] }}</td>
+                <td class="right-align">{{ result['crypto'] }} USDC</td>
             </tr>
             <tr class="total-row">
                 <td>Montant imposable</td>
-                <td class="right-align">{{ result['imposable'] }}</td>
+                <td class="right-align">{{ result['imposable'] }} EUR</td>
             </tr>
             <tr class="taxable-row">
                 <td>PEA</td>
-                <td class="right-align">{{ result['pea'] }}</td>
+                <td class="right-align">{{ result['pea'] }} EUR</td>
             </tr>
             <tr class="taxable-row">
                 <td>LA</td>
-                <td class="right-align">{{ result['epargne'] }}</td>
+                <td class="right-align">{{ result['epargne'] }} EUR</td>
             </tr>
             <tr class="taxable-row">
                 <td>LDDS (impôts)</td>
-                <td class="right-align">{{ result['impots'] }}</td>
+                <td class="right-align">{{ result['impots'] }} EUR</td>
             </tr>
             <tr class="taxable-row">
                 <td>Cash</td>
-                <td class="right-align">{{ result['cash'] }}</td>
+                <td class="right-align">{{ result['cash'] }} EUR</td>
             </tr>
         </table>
     </div>
@@ -163,28 +164,55 @@ def repartir_gains():
     if request.method == "POST":
         try:
             montant = float(request.form["montant"])
+            montant_eur = float(request.form["montant-eur"])
             
-            # Calculs pour chaque enveloppe
-            crypto = round(montant * 1 / 10, 2)
-            montant_sans_crypto = montant - crypto
-            impots = math.ceil(montant_sans_crypto * 0.30)
-            reste = montant_sans_crypto - impots
-            cash = round(reste * 1 / 10, 2)
-            pea = round(reste * 4 / 10, 2)
-            epargne = round(reste * 2 / 10, 2)
+            # Si aucun montant n'est entré dans le champs EUR
+            if montant_eur == None :
+                # Calculs pour chaque enveloppe
+                crypto = round(montant * 1 / 10, 2)
+                montant_sans_crypto = montant - crypto
+                impots = math.ceil(montant_sans_crypto * 0.30)
+                reste = montant_sans_crypto - impots
+                cash = round(reste * 1 / 10, 2)
+                pea = round(reste * 4 / 10, 2)
+                epargne = round(reste * 2 / 10, 2)
 
-            def format_number(value):
-                return "{:,.2f}".format(value).replace(",", " ").replace(".", ",")
+                def format_number(value):
+                    return "{:,.2f}".format(value).replace(",", " ").replace(".", ",")
 
-            result = {
-                "montant_total": format_number(montant),
-                "imposable": format_number(montant_sans_crypto),
-                "cash": format_number(cash),
-                "pea": format_number(pea),
-                "epargne": format_number(epargne),
-                "impots": format_number(impots),
-                "crypto": format_number(crypto),
-            }
+                result = {
+                    "montant_total": format_number(montant),
+                    "imposable": format_number(montant_sans_crypto),
+                    "cash": format_number(cash),
+                    "pea": format_number(pea),
+                    "epargne": format_number(epargne),
+                    "impots": format_number(impots),
+                    "crypto": format_number(crypto),
+                }
+            # Si un montant est entré en EUR   
+            else : 
+                # Calculs pour chaque enveloppe
+                crypto = round(montant * 1 / 10, 2)
+                montant_sans_crypto = montant - crypto
+                impots = math.ceil(montant_eur * 0.30)
+                reste = montant_eur - impots
+                cash = round(reste * 1 / 10, 2)
+                pea = round(reste * 4 / 10, 2)
+                epargne = round(reste * 2 / 10, 2)
+
+                def format_number(value):
+                    return "{:,.2f}".format(value).replace(",", " ").replace(".", ",")
+
+                result = {
+                    "montant_total": format_number(montant),
+                    "imposable": format_number(montant_eur),
+                    "cash": format_number(cash),
+                    "pea": format_number(pea),
+                    "epargne": format_number(epargne),
+                    "impots": format_number(impots),
+                    "crypto": format_number(crypto),
+                }
+
         except ValueError:
             result = None
     return render_template_string(html_template, result=result)
