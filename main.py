@@ -165,8 +165,7 @@ def repartir_gains():
         try:
             montant = float(request.form["montant"])
             # Vérification si "montant-eur" est vide
-            montant_eur_input = request.form.get("montant-eur")
-            montant_eur = request.form.get("montant-eur") if montant_eur_input else None
+            montant_eur = float(request.form["montant-eur"]) if montant_eur_input else None
 
             # Si aucun montant n'est entré dans le champs EUR
             if montant_eur == None :
