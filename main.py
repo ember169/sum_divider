@@ -125,31 +125,31 @@ html_template = """
         <table>
             <tr class="total-row">
                 <td>Montant total</td>
-                <td class="right-align">{{ result['montant_total'] }} USDC</td>
+                <td class="right-align">{{ result['montant_total'] }}</td>
             </tr>
             <tr>
                 <td>Crypto</td>
-                <td class="right-align">{{ result['crypto'] }} USDC</td>
+                <td class="right-align">{{ result['crypto'] }}</td>
             </tr>
             <tr class="total-row">
                 <td>Montant imposable</td>
-                <td class="right-align">{{ result['imposable'] }} EUR</td>
+                <td class="right-align">{{ result['imposable'] }}</td>
             </tr>
             <tr class="taxable-row">
                 <td>PEA</td>
-                <td class="right-align">{{ result['pea'] }} EUR</td>
+                <td class="right-align">{{ result['pea'] }}</td>
             </tr>
             <tr class="taxable-row">
                 <td>LA</td>
-                <td class="right-align">{{ result['epargne'] }} EUR</td>
+                <td class="right-align">{{ result['epargne'] }}</td>
             </tr>
             <tr class="taxable-row">
                 <td>LDDS (impôts)</td>
-                <td class="right-align">{{ result['impots'] }} EUR</td>
+                <td class="right-align">{{ result['impots'] }}</td>
             </tr>
             <tr class="taxable-row">
                 <td>Cash</td>
-                <td class="right-align">{{ result['cash'] }} EUR</td>
+                <td class="right-align">{{ result['cash'] }}</td>
             </tr>
         </table>
     </div>
@@ -170,6 +170,8 @@ def repartir_gains():
 
             # Si aucun montant n'est entré dans le champs EUR
             if montant_eur == None :
+
+                unit = 'USDC'
                 # Calculs pour chaque enveloppe
                 crypto = round(montant * 1 / 10, 2)
                 montant_sans_crypto = montant - crypto
@@ -184,15 +186,17 @@ def repartir_gains():
 
                 result = {
                     "montant_total": format_number(montant),
-                    "imposable": format_number(montant_sans_crypto),
-                    "cash": format_number(cash),
-                    "pea": format_number(pea),
-                    "epargne": format_number(epargne),
-                    "impots": format_number(impots),
+                    "imposable": format_number(montant_sans_crypto + " " + unit),
+                    "cash": format_number(cash) + " " + unit,
+                    "pea": format_number(pea) + " " + unit,
+                    "epargne": format_number(epargne) + " " + unit,
+                    "impots": format_number(impots) + " " + unit,
                     "crypto": format_number(crypto),
                 }
             # Si un montant est entré en EUR   
             else : 
+
+                unit = 'EUR'
                 # Calculs pour chaque enveloppe
                 crypto = round(montant * 1 / 10, 2)
                 montant_sans_crypto = montant - crypto
@@ -207,11 +211,11 @@ def repartir_gains():
 
                 result = {
                     "montant_total": format_number(montant),
-                    "imposable": format_number(montant_eur),
-                    "cash": format_number(cash),
-                    "pea": format_number(pea),
-                    "epargne": format_number(epargne),
-                    "impots": format_number(impots),
+                    "imposable": format_number(montant_sans_crypto + " " + unit),
+                    "cash": format_number(cash) + " " + unit,
+                    "pea": format_number(pea) + " " + unit,
+                    "epargne": format_number(epargne) + " " + unit,
+                    "impots": format_number(impots) + " " + unit,
                     "crypto": format_number(crypto),
                 }
 
