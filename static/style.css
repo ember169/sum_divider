@@ -1,18 +1,22 @@
-/* Applique l'overlay sombre par-dessus le GIF en fond */
+/* Styles globaux */
 body {
     font-family: 'Roboto', sans-serif;
     background-image: 
-        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), /* Overlay sombre */
-        url('https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3BnZGg4OGpjM2JueWE4c2F1Mm50MWgyNWUwNnkzN2ljbHdjOGU5biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YnkMcHgNIMW4Yfmjxr/giphy.gif'); /* GIF en fond */
+        linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+        url('https://i.giphy.com/media/v1.Y2lkPTc5MGI3NjExM3BnZGg4OGpjM2JueWE4c2F1Mm50MWgyNWUwNnkzN2ljbHdjOGU5biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/YnkMcHgNIMW4Yfmjxr/giphy.gif');
     background-size: cover;
     background-position: center;
     color: #e0e0e0;
+    margin: 0;
+}
+
+.container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    padding: 20px;
     min-height: 100vh;
-    margin: 0;
+    box-sizing: border-box;
 }
 
 h2 {
@@ -20,6 +24,7 @@ h2 {
     font-weight: 500;
     color: #ffffff;
     text-align: center;
+    margin-bottom: 20px;
 }
 
 form {
@@ -27,33 +32,37 @@ form {
     flex-direction: column;
     align-items: center;
     max-width: 600px;
-    width: 90%;
+    width: 100%;
     background-color: #1f1f1f;
     padding: 20px;
     border-radius: 8px;
+    box-sizing: border-box;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
     margin-bottom: 20px;
     text-align: center;
-    font-weight: 400;
 }
 
-label, input, button {
+label {
     font-family: 'Roboto', sans-serif;
-    width: 100%;
     color: #e0e0e0;
     font-weight: 500;
-    margin-bottom: 15px;
-    max-width: 300px;
+    margin-bottom: 5px;
+    width: 100%;
+    max-width: 500px;
+    text-align: left;
 }
 
 input {
+    width: 100%;
+    max-width: 500px;
     background-color: #333;
     border: none;
     padding: 10px;
     color: #e0e0e0;
     border-radius: 5px;
     font-size: 16px;
-    text-align: center;
+    margin-bottom: 15px;
+    box-sizing: border-box;
 }
 
 button {
@@ -63,8 +72,11 @@ button {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    text-align: center;
-    max-width: 300px;
+    width: 100%;
+    max-width: 500px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    margin-bottom: 15px;
 }
 
 button:hover {
@@ -72,19 +84,18 @@ button:hover {
 }
 
 button.button-secondary {
-    background-color: none!important;
-    border: solid, 2px, #1B448F!important;
-    color: white!important;
-    text-align:center!important;
-    max-width:300px!important;
+    background-color: transparent !important;
+    border: 2px solid #1B448F !important;
+    color: white !important;
 }
 
 .results {
     max-width: 600px;
-    width: 90%;
+    width: 100%;
     background-color: #1f1f1f;
     padding: 20px;
     border-radius: 8px;
+    box-sizing: border-box;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
     margin-bottom: 20px;
 }
@@ -93,7 +104,6 @@ table {
     width: 100%;
     border-collapse: collapse;
     font-family: 'Roboto Mono', monospace;
-    font-weight: 400!important;
 }
 
 th, td {
@@ -127,13 +137,14 @@ td {
     padding: 15px;
     margin-top: 10px;
     border-radius: 5px;
-    width: 90%;
+    width: 100%;
+    max-width: 600px;
+    box-sizing: border-box;
 }
 
 /* Liste des enveloppes ajoutées */
 #envelopes-list {
     width: 100%;
-    max-width: 300px;
     margin-bottom: 15px;
 }
 
@@ -143,7 +154,6 @@ td {
     padding: 8px;
     margin-bottom: 5px;
     border-radius: 5px;
-    text-align: left;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -162,22 +172,24 @@ td {
 /* Boutons Annuler et Ajouter dans la zone des enveloppes */
 .envelope-buttons {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     width: 100%;
-    max-width: 300px;
 }
 
 .envelope-buttons button {
     width: 48%;
+    margin-bottom: 10px;
 }
 
 #saved-envelopes-container {
     max-width: 600px;
-    width: 90%;
+    width: 100%;
     background-color: #1f1f1f;
     padding: 15px;
     border-radius: 8px;
     margin-bottom: 20px;
+    box-sizing: border-box;
     box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.5);
 }
 
@@ -185,4 +197,39 @@ td {
     margin-top: 0;
     color: #ffffff;
     text-align: center;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 600px) {
+    body, .container {
+        padding: 10px;
+    }
+
+    form, .results, #saved-envelopes-container {
+        padding: 15px;
+    }
+
+    label, input, button, .envelope-buttons button {
+        max-width: none;
+        width: 100%;
+    }
+
+    .envelope-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .envelope-buttons button {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .envelope-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .remove-envelope {
+        align-self: flex-end;
+    }
 }
